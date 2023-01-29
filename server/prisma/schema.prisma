@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Questionaire {
+  id          Int          @id @default(autoincrement())
+  name        String
+  questions   Question[]
+  submissions Submission[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+}
+
+model Question {
+  id              Int           @id @default(autoincrement())
+  title           String
+  question        String
+  questionType    QUESTION_TYPE
+  required        Boolean
+  options         Json?
+  order           Int
+  questionaire_id Int
+  questionaire    Questionaire  @relation(fields: [questionaire_id], references: [id])
+  answers         Answer[]
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+
+  @@unique([questionaire_id, order])
+}
+
+model Submission {
+  id              Int          @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  email           String
+  phone           String
+  answers         Answer[]
+  questionaire_id Int
+  questionaire    Questionaire @relation(fields: [questionaire_id], references: [id])
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+}
+
+model Answer {
+  id            Int        @id @default(autoincrement())
+  value         String
+  question_id   Int
+  question      Question   @relation(fields: [question_id], references: [id])
+  submission_id Int
+  submission    Submission @relation(fields: [submission_id], references: [id])
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+}
+
+enum QUESTION_TYPE {
+  RADIO
+  DROPDOWN
+  DATE
+}
