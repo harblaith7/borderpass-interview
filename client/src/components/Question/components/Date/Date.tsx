@@ -17,6 +17,7 @@ export default function Date({
       type="date"
       value={answer.value}
       onChange={(e) => handleChangeAnswer(e.target.value)}
+      data-testid="date-picker"
     />
   );
 }
