@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { Answer } from "../../../../types";
 
-const DateInput = styled.input``;
+const DateInput = styled.input`
+  padding: 5px;
+`;
+
 export default function Date({
   answer,
   handleChangeAnswer,

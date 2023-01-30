@@ -9,7 +9,7 @@ const Container = styled.div``;
 const Header = styled.h2``;
 
 const Paragraph = styled.p`
-  margin-top: 15px;
+  margin: 15px 0;
   font-size: 12px;
 `;
 

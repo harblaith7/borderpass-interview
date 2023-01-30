@@ -21,11 +21,21 @@ function App() {
   const renderContent = () => {
     if (loading) return <CircularLoadingSpinner />;
 
-    if (error) return <div>Error</div>;
+    if (error)
+      return (
+        <div>
+          <p>Something went wrong...</p>
+        </div>
+      );
 
     if (data) {
       const { questionaire } = data;
-      if (questionaire.error) return <div>Error</div>;
+      if (questionaire.error)
+        return (
+          <div>
+            <p>Something went wrong...</p>
+          </div>
+        );
       if (questionaire.data) {
         return <Questionaire questionaire={questionaire.data} />;
       }

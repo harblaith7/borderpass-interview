@@ -76,7 +76,6 @@ export default function Questionaire({
         value: "",
       };
     });
-    console.log("should be here", { initialAnswers });
     setAnswers(initialAnswers);
   }, []);
 

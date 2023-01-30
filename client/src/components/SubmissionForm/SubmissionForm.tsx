@@ -2,7 +2,6 @@ import { gql, useMutation } from "@apollo/client";
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
-import useSubmissionCreate from "../../hooks/graphql/useSubmissionCreate";
 import { Answer } from "../../types";
 import CircularLoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
@@ -10,6 +9,15 @@ const Form = styled.form`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+`;
+
+const Container = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+`;
+
+const Header = styled.h1`
+  margin-bottom: 10px;
 `;
 
 const Button = styled.button`
@@ -61,14 +69,6 @@ export default function SubmissionForm({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      firstName,
-      lastName,
-      phone,
-      email,
-      questionaireId,
-      answers,
-    });
     createSubmission({
       variables: {
         firstName,
@@ -83,7 +83,12 @@ export default function SubmissionForm({
 
   if (loading) return <CircularLoadingSpinner />;
 
-  if (error || data?.error) return <div>Error</div>;
+  if (error || data?.error)
+    return (
+      <div>
+        <p>Something went wrong</p>
+      </div>
+    );
 
   if (data)
     return (
@@ -94,44 +99,47 @@ export default function SubmissionForm({
     );
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <TextField
-        required
-        id="outlined-required"
-        label="First Name"
-        defaultValue=""
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        style={{ width: "49%", marginBottom: "10px" }}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Last Name"
-        defaultValue=""
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        style={{ width: "49%", marginBottom: "10px" }}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Email"
-        defaultValue=""
-        value={email}
-        style={{ width: "49%" }}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Phone"
-        defaultValue=""
-        value={phone}
-        style={{ width: "49%" }}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <Button>Submit</Button>
-    </Form>
+    <Container>
+      <Header>You're almost done...</Header>
+      <Form onSubmit={handleSubmit}>
+        <TextField
+          required
+          id="outlined-required"
+          label="First Name"
+          defaultValue=""
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          style={{ width: "49%", marginBottom: "10px" }}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Last Name"
+          defaultValue=""
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          style={{ width: "49%", marginBottom: "10px" }}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Email"
+          defaultValue=""
+          value={email}
+          style={{ width: "49%" }}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Phone"
+          defaultValue=""
+          value={phone}
+          style={{ width: "49%" }}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <Button>Submit</Button>
+      </Form>
+    </Container>
   );
 }
