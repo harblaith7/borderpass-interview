@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -44,6 +44,19 @@ export class SubmissionController {
       });
 
       return 'SUCCESS';
+    });
+  }
+  @Get()
+  async fetch() {
+    return prisma.submission.findMany({
+      select: {
+        first_name: true,
+        last_name: true,
+        email: true,
+        phone: true,
+        answers: true,
+        questionaire: true,
+      },
     });
   }
 }

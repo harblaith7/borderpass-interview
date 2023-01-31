@@ -38,6 +38,18 @@ let SubmissionController = class SubmissionController {
             return 'SUCCESS';
         });
     }
+    async fetch() {
+        return prisma.submission.findMany({
+            select: {
+                first_name: true,
+                last_name: true,
+                email: true,
+                phone: true,
+                answers: true,
+                questionaire: true,
+            },
+        });
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -46,6 +58,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], SubmissionController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SubmissionController.prototype, "fetch", null);
 SubmissionController = __decorate([
     (0, common_1.Controller)('submission')
 ], SubmissionController);
