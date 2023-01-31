@@ -13,7 +13,6 @@ interface SubmissionArgs {
 
 export const Mutation = {
   submissionCreate: async (_: any, { submission }: SubmissionArgs) => {
-    console.log(submission);
     try {
       const response = await axios.post(`http://localhost:8080/submission`, {
         ...submission,
@@ -28,7 +27,5 @@ export const Mutation = {
         error: error.message,
       };
     }
-
-    // console.log(response);
   },
 };

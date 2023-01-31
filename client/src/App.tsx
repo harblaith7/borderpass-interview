@@ -15,33 +15,42 @@ const Container = styled.main`
   position: relative;
 `;
 
+const ErrorHeader = styled.h2`
+  font-size: 30px;
+  color: red;
+`;
+
+const ErrorDescription = styled.p`
+  color: gray;
+`;
+
+export function ErrorDisplay({ message }: { message: string }) {
+  return (
+    <Container>
+      <ErrorHeader>Something went wrong...</ErrorHeader>
+      <ErrorDescription>{message}</ErrorDescription>
+    </Container>
+  );
+}
+
 function App() {
   const { data, loading, error } = useQuestionaire(1);
 
   const renderContent = () => {
     if (loading) return <CircularLoadingSpinner />;
 
-    if (error)
-      return (
-        <div>
-          <p>Something went wrong...</p>
-        </div>
-      );
+    if (error) return <ErrorDisplay message={error.name} />;
 
     if (data) {
       const { questionaire } = data;
       if (questionaire.error)
-        return (
-          <div>
-            <p>Something went wrong...</p>
-          </div>
-        );
+        return <ErrorDisplay message={questionaire.error} />;
       if (questionaire.data) {
         return <Questionaire questionaire={questionaire.data} />;
       }
     }
 
-    return <div>Unknown error occured</div>;
+    return <ErrorDisplay message="An unknown error occured" />;
   };
 
   return <Container>{renderContent()}</Container>;

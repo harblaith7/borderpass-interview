@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { ErrorDisplay } from "../../App";
 import { Answer } from "../../types";
 import CircularLoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
@@ -83,12 +84,11 @@ export default function SubmissionForm({
 
   if (loading) return <CircularLoadingSpinner />;
 
-  if (error || data?.error)
-    return (
-      <div>
-        <p>Something went wrong</p>
-      </div>
-    );
+  if (error) return <ErrorDisplay message={error.message} />;
+
+  if (data?.error) {
+    return <ErrorDisplay message={data.error} />;
+  }
 
   if (data)
     return (
@@ -110,6 +110,7 @@ export default function SubmissionForm({
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           style={{ width: "49%", marginBottom: "10px" }}
+          data-testid="first-name-input"
         />
         <TextField
           required
